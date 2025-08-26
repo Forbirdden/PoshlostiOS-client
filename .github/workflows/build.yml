@@ -4,14 +4,12 @@ on:
   push:
     tags:
       - v*
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  build:
+  release:
     runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -19,8 +17,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -30,48 +26,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build app
-      run: npm run build
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: List built files
-      run: ls -la dist/
-
-    - name: Get tag name
-      id: get_tag
-      run: |
-        if [ "${{ github.event_name }}" = "push" ] && [[ "${{ github.ref }}" == refs/tags/* ]]; then
-          echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-        else
-          echo "TAG_NAME=" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Create Release
-      if: steps.get_tag.outputs.TAG_NAME != ''
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build/release Electron app
+      uses: samuelmeuli/action-electron-builder@v1.6.0
       with:
-        tag_name: ${{ steps.get_tag.outputs.TAG_NAME }}
-        release_name: ${{ steps.get_tag.outputs.TAG_NAME }}
-        draft: true
-        prerelease: false
-
-    - name: Upload Release Asset
-      if: steps.get_tag.outputs.TAG_NAME != ''
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/poshlostios-client.AppImage
-        asset_name: poshlostios-client-${{ steps.get_tag.outputs.TAG_NAME }}.AppImage
-        asset_content_type: application/octet-stream
-
-    - name: Debug info
-      run: |
-        echo "Event: ${{ github.event_name }}"
-        echo "Ref: ${{ github.ref }}"
-        echo "Tag: ${{ steps.get_tag.outputs.TAG_NAME }}"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        release: ${{ startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
+        build_script_name: build
