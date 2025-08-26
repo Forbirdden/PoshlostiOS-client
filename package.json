@@ -28,10 +28,11 @@
           "arch": ["x64"]
         }
       ]
-    },
+    }
+  }
   "devDependencies": {
     "electron": "^37.3.1",
     "electron-builder": "^26.0.12"
   }
 }
-}
+
