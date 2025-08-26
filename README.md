@@ -9,7 +9,7 @@ Target OS: Linux, AppImage
 git clone https://github.com/Forbirdden/PoshlostiOS-client.git
 ```
 ```
-npm install
+npm ci
 ```
 ```
 npm run build

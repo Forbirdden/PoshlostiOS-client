@@ -19,7 +19,7 @@
     "asar": false,
     "linux": {
       "target": ["AppImage"],
-      "artifactName": "${productName}-Linux-${version}.${ext}"
+      "artifactName": "poshlostios-client.${ext}"
     }
   },
   "devDependencies": {
