@@ -17,6 +17,10 @@
     "appId": "com.forbirdden.poshlostios",
     "productName": "PoshlostiOS",
     "asar": false,
+    "publish": {
+      "provider": "github",
+      "releaseType": "draft"
+    },
     "linux": {
       "target": ["AppImage"],
       "artifactName": "poshlostios-client.${ext}"
