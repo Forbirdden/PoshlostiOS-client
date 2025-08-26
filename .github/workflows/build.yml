@@ -30,5 +30,6 @@ jobs:
       uses: samuelmeuli/action-electron-builder@v1.6.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        release: ${{ startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch' }}
+        publish: always
+        draft: ${{ github.event_name == 'workflow_dispatch' }}
         build_script_name: build
