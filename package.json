@@ -22,10 +22,13 @@
       "releaseType": "draft"
     },
     "linux": {
-      "target": ["AppImage"],
-      "artifactName": "poshlostios-client.${ext}"
-    }
-  },
+      "target": [
+        {
+          "target": "apk",
+          "arch": ["x64", "arm64"]
+        }
+      ]
+    },
   "devDependencies": {
     "electron": "^37.3.1",
     "electron-builder": "^26.0.12"
