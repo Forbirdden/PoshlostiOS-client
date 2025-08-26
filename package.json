@@ -1,22 +1,29 @@
 {
-  "name": "minimal-repro",
+  "name": "poshlostios-client",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "PoshlostiOS as desktop ENVIRONMENT",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder --linux"
   },
-  "repository": "https://github.com/electron/minimal-repro",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
+  "repository": "https://github.com/Forbirdden/PoshlostiOS-client",
+  "author": {
+    "name": "Forbirdden",
+    "email": "@forbirdden."
+  },
   "license": "CC0-1.0",
+  "build": {
+    "appId": "com.forbirdden.poshlostios",
+    "productName": "PoshlostiOS",
+    "asar": false,
+    "linux": {
+      "target": ["AppImage"],
+      "artifactName": "${productName}-Linux-${version}.${ext}"
+    }
+  },
   "devDependencies": {
-    "electron": "^37.3.1"
+    "electron": "^37.3.1",
+    "electron-builder": "^26.0.12"
   }
 }
